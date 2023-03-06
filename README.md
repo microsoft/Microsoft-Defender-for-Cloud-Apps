@@ -5,7 +5,7 @@
 
 # Resources
 * [Microsoft Defender for Cloud Apps documentation](https://aka.ms/DefenderforCloudAppsdocs)
-* [Microsoft Defender for Clouda Apps Ninja Training] (http://aka.ms/MDCANinjaTraining)
+* [Microsoft Defender for Clouda Apps Ninja Training](http://aka.ms/MDCANinjaTraining)
 * [Microsoft 365 Defender documentation](https://docs.microsoft.com/microsoft-365/security/defender/microsoft-365-defender?view=o365-worldwide)
 * [Security Community Webinars](https://aka.ms/securitywebinars)
 * [Recent Defender for Cloud Apps block posts](https://aka.ms/DefenderforCloudAppsBlogs)
