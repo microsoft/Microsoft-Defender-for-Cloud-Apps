@@ -1,7 +1,18 @@
 # Microsoft Defender for Cloud Apps
 
-> This repo contains sample scripts and code that is intended to serve as a guide to 
+> Welcome to the Microsoft Defender for Cloud Apps repository! This repository contains sampless scripts and code that is intended to serve as a guide to 
 > drive automation and adoption of Microsoft Defender for Cloud Apps.
+
+# Resources
+* [Microsoft Defender for Cloud Apps documentation](https://aka.ms/DefenderforCloudAppsdocs)
+* [Microsoft Defender for Clouda Apps Ninja Training] (http://aka.ms/MDCANinjaTraining)
+* [Microsoft 365 Defender documentation](https://docs.microsoft.com/microsoft-365/security/defender/microsoft-365-defender?view=o365-worldwide)
+* [Security Community Webinars](https://aka.ms/securitywebinars)
+* [Recent Defender for Cloud Apps block posts](https://aka.ms/DefenderforCloudAppsBlogs)
+
+We value your feedback. Here are some channels to help surface your questions or feedback:
+
+Product specific feature requests - Upvote or post new on [Microsoft 365 Defender feedback forums](https://aka.ms/M365Defender/Feedback)
 
 
 ## Contributing
