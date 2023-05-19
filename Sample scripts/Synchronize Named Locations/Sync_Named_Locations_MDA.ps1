@@ -82,7 +82,7 @@ function getCloudAppRanges {
     }'
 
     #make the API call to get the existing ranges
-    $list = Invoke-RestMethod -uri $listEndpoint -Headers $Header -Method POST -Body $listBody
+    $list = Invoke-RestMethod -uri $listEndpoint -Headers $mdaHeader -Method POST -Body $listBody
 
     #add the value to an array so it can be accessed later with a couple of indexes
     $existingList = new-object System.Collections.ArrayList
@@ -109,7 +109,7 @@ function createNewRange {
     "tags": ["'+ $tags + '"]
 }'
     write-host $createbody
-    $create = Invoke-RestMethod  -Uri $createEndpoint -Headers $Header -Method POST -body $createBody -Verbose
+    $create = Invoke-RestMethod  -Uri $createEndpoint -Headers $mdaHeader -Method POST -body $createBody -Verbose
     return $create
 }
 
@@ -137,7 +137,7 @@ function updateRange{
     write-host $updateBody
     $endpoint = $mdaEndpoint + "/api/v1/subnet/" + $subnetId + "/update_rule/"
     write-host $endpoint
-    $update = Invoke-RestMethod  -Uri $endpoint -Headers $Header -Method POST -body $updateBody -Verbose
+    $update = Invoke-RestMethod  -Uri $endpoint -Headers $mdaHeader -Method POST -body $updateBody -Verbose
     return $update
 }
 #---------------------------------------------------------------
