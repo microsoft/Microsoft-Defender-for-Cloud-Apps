@@ -99,7 +99,7 @@ function getCloudAppRanges {
 function createNewRange {
     param([string]$displayName, [string]$ipRange)
     $type = 1 
-    $tags = "Named_Location_Sync"
+    $tags = "AAD Named Location"
     $createBody = 
     '{
     "name": "'+ $location.displayName + '",
