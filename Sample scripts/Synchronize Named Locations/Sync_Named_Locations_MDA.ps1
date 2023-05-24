@@ -30,7 +30,7 @@ $resourceGraph = "https://graph.microsoft.com"
 $mdaEndpoint = "https://tenant.datacenter.portal.cloudappsecurity.com"
 $createEndpoint = $mdaEndpoint + "/api/v1/subnet/create_rule/"
 $listEndpoint = $mdaEndpoint + "/api/v1/subnet/"
-$updateEndpoint = $mdaEndpoint + "/api/v1/subnet/update_rule/"
+
 
 function getNamedLocations {
     # Construct URI for token
@@ -49,6 +49,15 @@ function getNamedLocations {
     $namedLocationsUri = "$resourceGraph/v1.0/identity/conditionalAccess/namedLocations"
     $namedLocationsResponse = Invoke-RestMethod -Headers @{Authorization = "Bearer $($tokenResponse.access_token)" } -Uri $namedLocationsUri
     return $namedLocationsResponse
+}
+
+#---------------------------------------------------------------------------------------
+# Get the update endpoint for MDA to update the IP ranges and display name
+#---------------------------------------------------------------------------------------
+function getUpdateEndpoint {
+    param ([string]$subnetId)
+    $updateEndpoint = $mdaEndpoint + "/api/v1/subnet/" + $subnetId + "/update_rule/"
+    return $updateEndpoint
 }
 
 #---------------------------------------------------------------------------------------
@@ -135,7 +144,7 @@ function updateRange{
     "name":"'+ $displayName + '"
     }'
     write-host $updateBody
-    $endpoint = $mdaEndpoint + "/api/v1/subnet/" + $subnetId + "/update_rule/"
+    $endpoint = getUpdateEndpoint -subnetId $subnetId
     write-host $endpoint
     $update = Invoke-RestMethod  -Uri $endpoint -Headers $mdaHeader -Method POST -body $updateBody -Verbose
     return $update
