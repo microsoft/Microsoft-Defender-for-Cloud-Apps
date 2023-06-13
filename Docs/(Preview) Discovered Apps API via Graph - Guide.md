@@ -85,6 +85,7 @@ Response:{
 }
 ```
 *same for a collection of entities called Collection(discoveredCloudAppsipAddress) with 1 property called "ipAddress"
+
 *same for a collection of entities called Collection(discoveredCloudAppsDevice) with 1 property called "name". Note applicable only if the stream is Endpoint Stream.
 
 #### Using filters, see all apps which are categorized as Marketing and are not Hippa or GDPR compliant
@@ -93,7 +94,7 @@ Response:{
 
 Expected response:
 
-```
+```JSON
 Response:
 {
   "value": [
