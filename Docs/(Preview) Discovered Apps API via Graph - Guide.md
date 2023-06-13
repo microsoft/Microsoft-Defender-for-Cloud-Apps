@@ -22,7 +22,9 @@ https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/upload
 
 3.	Run the following GET command using the 'streamID':
   
-  `GET https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<streamId>/aggregatedAppsDetails(period=duration'P90D')`
+  ```HTML 
+  GET https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<streamId>/aggregatedAppsDetails(period=duration'P90D')
+  ```
   
 ### Permissions Requirements: 
 | Permissions	| Type	| Entities/APIs Covered |
@@ -33,10 +35,12 @@ https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/upload
 ### See all the apps discovered this week: 
 
 #### Code or REST operation example:
-` GET  https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<streamId>/aggregatedAppsDetails (period=duration 'P7D') `
+```HTML 
+GET  https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<streamId>/aggregatedAppsDetails (period=duration 'P7D') 
+```
 
 Expected response:
-```
+```JSON
 Response:{
   "value": [
     {
@@ -60,10 +64,12 @@ Response:{
 }
 ```
 #### Using $select, and $filter see only the app name of all the apps discovered in the last 30 days with risk score lower or equal to 4:
-`GET https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<streamId>/aggregatedAppsDetails (period=duration'P30D')?$filter=riskRating  le 4 &$select=displayName Response:`
+```HTML 
+GET https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<streamId>/aggregatedAppsDetails (period=duration'P30D')?$filter=riskRating  le 4 &$select=displayName Response:
+```
 
 Expected response:
-```
+```JSON
   Response:{
     "value": [
       {"displayName": "ShareASale"},
@@ -73,11 +79,13 @@ Expected response:
 ```
 #### Get the userIdentifier of all users (or devices or IPaddresses) using a specific app
 
-`GET  https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<streamId>/aggregatedAppsDetails (period=duration'P30D')/ <id>/users `
+```HTML 
+GET  https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<streamId>/aggregatedAppsDetails (period=duration'P30D')/ <id>/users 
+```
 
 Expected response:
 
-```
+```JSON
 Response:{
   "value": [
     { "userIdentifier": "Broderick@fabrikan.com"}, {" userIdentifier": "temp@fabrikan.com"}
@@ -90,7 +98,9 @@ Response:{
 
 #### Using filters, see all apps which are categorized as Marketing and are not Hippa or GDPR compliant
 
-`GET  https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<MDEstreamId>/aggregatedAppsDetails (period=duration 'P30D')?$filter= (appInfo/Hippa eq 'false' or appInfo/GDPR eq 'false') and category eq 'Marketing' `
+```HTML
+GET  https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<MDEstreamId>/aggregatedAppsDetails (period=duration 'P30D')?$filter= (appInfo/Hippa eq 'false' or appInfo/GDPR eq 'false') and category eq 'Marketing' 
+```
 
 Expected response:
 
@@ -119,8 +129,10 @@ Response:
     { "id": 845938765493, "displayName": "Dropbox", "riskScore": 9 }
   ]
 }
-
 ```
+
+### Best practices of how to use Graph API
+
 
 
  
