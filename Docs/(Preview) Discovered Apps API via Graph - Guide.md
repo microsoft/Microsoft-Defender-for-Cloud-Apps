@@ -8,17 +8,17 @@
 | Keith Fleming   | PM |
 
 
-### Background:
+## Background:
 This API will allow customers to GET all the data available in Discovered Apps page via an API; including filters, ‘select’ (https://learn.microsoft.com/en-us/graph/query-parameters?tabs=http#odata-system-query-options) and more. 
 
-### Basic Features Functionality:
+## Basic Features Functionality:
 1.	Run the following GET command to get an high-level summary of the Discovery streams enabled on your tenant: 
 https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams
   ![image](https://github.com/microsoft/Microsoft-Defender-for-Cloud-Apps/assets/116388443/2ad17c97-c9f4-4736-9f2c-7827bd61db10)
   
 2. Copy the relevant 'streamID': 
   
-  ![image](https://github.com/microsoft/Microsoft-Defender-for-Cloud-Apps/assets/116388443/3f944016-5e08-49cc-8495-737f5aa39601)
+    ![image](https://github.com/microsoft/Microsoft-Defender-for-Cloud-Apps/assets/116388443/3f944016-5e08-49cc-8495-737f5aa39601)
 
 3.	Run the following GET command using the 'streamID':
   
@@ -131,26 +131,38 @@ Response:
 }
 ```
 
+# Using Graph API
 ## Best practices of how to use Graph API
-#### Here are the steps to register an Azure AD app with these permissions, if you want to test this with a script such as PowerShell:
+### Here are the steps to register an Azure AD app with these permissions, if you want to test this with a script such as PowerShell:
 
-Step 1- Create an App using either [Application Context](https://learn.microsoft.com/en-us/defender-cloud-apps/api-authentication-application) or [User Context](https://learn.microsoft.com/en-us/defender-cloud-apps/api-authentication-user) and give it consent.
+### 1. Create an App using either [Application Context](https://learn.microsoft.com/en-us/defender-cloud-apps/api-authentication-application) or [User Context](https://learn.microsoft.com/en-us/defender-cloud-apps/api-authentication-user) and give it consent.
 In general, you’ll need to take the following steps to use the APIs:
  
 * Create an Azure Active Directory (Azure AD) application
 * Get an access token using this application
 * Use the token to access the Defender for Cloud Apps API
 
-To create an App in Azure AD, follow the steps 1, 2 and 3 on this documentation
+Steps (1 to 3): To create an App in Azure AD, follow the steps 1, 2 and 3 on this documentation
 https://learn.microsoft.com/en-us/defender-cloud-apps/api-authentication-application#create-an-app
  
 When you get to step 4 on, use the instructions below instead of the steps in the public doc.
 You will need to customize the permissions needed for managing Cloud Discovery
  
-Step 4: Under Microsoft Graph, give permission to the CloudApp-Discovery.Read.All 
+### 2. Under Microsoft Graph, give permission to the CloudApp-Discovery.Read.All 
+![Alt text](assets/image.png)
+![Alt text](assets/image-1.png)
 
+### 3. Grant Admin Consent to the App
+![Alt text](assets/image-2.png)
 
-
-
- 
+### 4. Get an app secret under "Certificates & Secrets" and copy the string under “value” to be used by your script later on
+Note: You can also use certificates
+ ![Alt text](assets/image-3.png)
   
+### 5. Now you configure your script/code to use the authorized App to query the API.
+Here is a sample code in Powershell:
+(placeholder)
+
+## Integrate your response with PBI
+[TBD]
+
