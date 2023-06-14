@@ -131,7 +131,24 @@ Response:
 }
 ```
 
-### Best practices of how to use Graph API
+## Best practices of how to use Graph API
+#### Here are the steps to register an Azure AD app with these permissions, if you want to test this with a script such as PowerShell:
+
+Step 1- Create an App using either [Application Context](https://learn.microsoft.com/en-us/defender-cloud-apps/api-authentication-application) or [User Context](https://learn.microsoft.com/en-us/defender-cloud-apps/api-authentication-user) and give it consent.
+In general, you’ll need to take the following steps to use the APIs:
+ 
+* Create an Azure Active Directory (Azure AD) application
+* Get an access token using this application
+* Use the token to access the Defender for Cloud Apps API
+
+To create an App in Azure AD, follow the steps 1, 2 and 3 on this documentation
+https://learn.microsoft.com/en-us/defender-cloud-apps/api-authentication-application#create-an-app
+ 
+When you get to step 4 on, use the instructions below instead of the steps in the public doc.
+You will need to customize the permissions needed for managing Cloud Discovery
+ 
+Step 4: Under Microsoft Graph, give permission to the CloudApp-Discovery.Read.All 
+
 
 
 
