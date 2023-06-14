@@ -161,8 +161,65 @@ Note: You can also use certificates
   
 ### 5. Now you configure your script/code to use the authorized App to query the API.
 Here is a sample code in Powershell:
-(placeholder)
+
+[Placeholder]
 
 ## Integrate your response with PBI
-[TBD]
+[Placeholder]
+
+
+# Details and schema changes
+@itaig-msft please add the details of the schema changes here, it looks like there has been some updates to PR.
+
+## New entity types
+###  *DiscoveredCloudAppDetail*  
+| Property        | Type           | Description  |
+| ------------- |:-------------:| -----:|
+| id      | String | The unique identifier for the discovered cloud app. |
+| displayName	| String	| The name of the app (no restriction) |
+| tags	| List of Strings	| A list of all the tags of an app. Usually it ranges between 0 to 2 but theoretically can have up to 15 custom tags| 
+|riskScore|Int|The risk score of the app: 10 means secure, 1 means very risky|
+|uploadNetworkTraficInBytes|Int32|The amount of upload traffic in bytes|
+|downloadNetworkTraficInBytes|Int32|The amount of download traffic in bytes|
+|transactionCount|Int|number of the transactions; a transaction is one log line of usage between two devices. i.e, any request to the SaaS app is a transaction, so if the user browse the app and then clicked on a link inside the app it is counted as 2 transactions|
+|userCount|Int|the number of all the users who browsed this app|
+|ipAddressCount|Int|The number of IP Addresses that were browsed to this app|
+|lastSeenDateTime|Date|When was the app last browsed. format YYYY-MM-DD|
+|domains|List of Strings|A list of all domains/URLs associated to this app. List length can be any number between 1 to 55.|
+|category|appCategory|This field describes what category an app is in. An app can be part of a single category only. Categories examples: Marketing, Social Media, Collaboration.|
+
+
+###  *Relationships* 
+| Property        | Type           | Description  |
+| ------------- |:-------------:| -----:|
+| users | Collection(discoveredCloudAppsUser) | the email of the user|
+| ipAddresses | Collection(discoveredCloudAppsipAddress) | the discovered IP address|
+| appInfo | discoveredCloudAppsAppInfo | the 90 parameters which determine the risk score of the app|
+
+###  *Supported functionality* 
+|Operation | Supported | Method | Success | Notes |
+| ------------- |:-------------:| -----:| -----:| -----:|
+|List | Yes | `GET` | 200 OK | |
+|Get | Yes | `GET` | 200 OK | |
+
+
+###  *Supported query patterns* 
+| Pattern        | Supported  |  Syntax | Notes  |
+| ------------- |:-------------:| -----:| -----:|
+|Server-side pagination| Yes | `@odata.nextLink` | |
+| Filter 1 - equals | Yes | `/collection?$filter=propA eq 'value'` | propA can be: id, displayName, tags, riskScore, traffic, transactionCount, userCount, ipAddressCount, lastSeenDateTime, domains, and all appInfo parameters*, with value1 according to property type.|
+| Filter 2 - not equals | Yes | `/collection?$filter=propA ne 'value'` | propA can be: id, displayName, tags, riskScore, traffic, transactionCount, userCount, ipAddressCount, lastSeenDateTime, domains, and all appInfo parameters*, with value1 according to property type.|
+| Filter 3 - in range | Yes | `/collection?$filter=propA le 'value1' and propA ge 'value2''` |propA can be: riskScore, traffic, uploadNetworkTraficInBytes, downloadNetworkTraficInBytes, transactionCount, userCount, ipAddressCount, lastSeenDateTime, and all appInfo parameters* of type int or date, , with value1 and value2 as int, date or float according to property.|
+| Filter 4 - less than or equal | Yes | `/collection?$filter=propA le 'value'` | propA can be: riskScore, traffic, uploadNetworkTraficInBytes, downloadNetworkTraficInBytes, transactionCount, userCount, ipAddressCount, lastSeenDateTime, and all appInfo parameters* of type int or date, with value1 as int or float according to property. propA can be: lastSeen with value1 as date.|
+| Filter 5 - greater than or equal | Yes | `/collection?$filter=propA ge 'value'` | propA can be: riskScore, traffic, uploadNetworkTraficInBytes, downloadNetworkTraficInBytes, transactionCount, userCount, ipAddressCount, lastSeenDateTime, and all appInfo parameters* of type int or date, with value1 as int or float according to property. propA can be: lastSeen with value1 as date.|
+| Filter 6 - starts with | Yes | `/collection?$filter=startswith(propA, 'value')` | propA can be: displayName, tags, domains, appInfo/* all strings parameters |
+| Filter 7 - end with | Yes | `/collection?$filter=endswith(propA, 'value')` | propA can be: displayName, tags, domains, appInfo/* all strings parameters |
+| Filter 8 - contains text | Yes | `/collection?$filter=contains(propA, 'value')` | propA can be: displayName, tags, domains, appInfo/* all strings parameters |
+| expand user property | Yes | `/collection?$expand=users` | |
+
+###  *Sus*
+
+
+
+
 
