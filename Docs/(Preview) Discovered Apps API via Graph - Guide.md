@@ -161,11 +161,11 @@ Note: You can also use certificates
  ![Alt text](assets/image-3.png)
   
 ### 5. Now you configure your script/code to use the authorized App to query the API.
-#### Powershell sample:
-#### [Placeholder]
+ Powershell sample:
+ [Placeholder]
 
 ### 6. [Optional] Integrate with PBI 
-####  [Placeholder]
+ [Placeholder]
 
 
 #
