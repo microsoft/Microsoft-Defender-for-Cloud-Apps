@@ -16,11 +16,11 @@ This API will allow customers to GET all the data available in Discovered Apps p
 https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams
   ![image](https://github.com/microsoft/Microsoft-Defender-for-Cloud-Apps/assets/116388443/2ad17c97-c9f4-4736-9f2c-7827bd61db10)
   
-2. Copy the relevant 'streamID': 
+2. Copy the relevant 'streamId': 
   
     ![image](https://github.com/microsoft/Microsoft-Defender-for-Cloud-Apps/assets/116388443/3f944016-5e08-49cc-8495-737f5aa39601)
 
-3.	Run the following GET command using the 'streamID':
+3.	Run the following GET command using the 'streamId':
   
   ```HTML 
   GET https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<streamId>/aggregatedAppsDetails(period=duration'P90D')
@@ -97,9 +97,10 @@ Response:{
 *same for a collection of entities called Collection(discoveredCloudAppsDevice) with 1 property called "name". Note applicable only if the stream is Endpoint Stream.
 
 #### Using filters, see all apps which are categorized as Marketing and are not Hippa or GDPR compliant
+*Note if Defender for Endpoint stream is used, "deviceCount" will be presented as well
 
 ```HTML
-GET  https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<MDEstreamId>/aggregatedAppsDetails (period=duration 'P30D')?$filter= (appInfo/Hippa eq 'false' or appInfo/GDPR eq 'false') and category eq 'Marketing' 
+GET  https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<endpointStreamId>/aggregatedAppsDetails (period=duration 'P30D')?$filter= (appInfo/Hippa eq 'false' or appInfo/GDPR eq 'false') and category eq 'Marketing' 
 ```
 
 Expected response:
