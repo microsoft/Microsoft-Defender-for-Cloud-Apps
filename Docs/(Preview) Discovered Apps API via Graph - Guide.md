@@ -32,9 +32,8 @@ https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/upload
 | CloudApp-Discovery.Read.All	| Read Discovered Apps data.	| Allows the app to read all available data pertaining to Discovered Cloud Apps from Microsoft Defender for Cloud Apps.|
   
 ## Top Use Cases and Examples
-### See all the apps discovered this week: 
 
-#### Code or REST operation example:
+#### See all the apps discovered this week: 
 ```HTML 
 GET  https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<streamId>/aggregatedAppsDetails(period=duration'P7D') 
 ```
@@ -63,6 +62,8 @@ Response:{
   ]
 }
 ```
+*Note if the streamId is related to Defender for Endpoints, another property called "deviceCount" will be present and the "@odata.type": "#microsoft.security.endpointDiscoveredCloudAppDetail"
+
 #### Using $select, and $filter see only the app name of all the apps discovered in the last 30 days with risk score lower or equal to 4:
 ```HTML 
 GET https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<streamId>/aggregatedAppsDetails(period=duration'P30D')?$filter=riskScore le 4 &$select=displayName 
@@ -96,14 +97,12 @@ Response:{
 
 *[Currently not supported - known issue to be fixed in mid-July] same for a collection of entities called Collection(discoveredCloudAppsDevice) with 1 property called "name". Note applicable only if the stream is Endpoint Stream.
 
-#### Using filters, see all apps which are categorized as Marketing and are not Hipaa or GDPR compliant
+#### Using filters, and Defender for Endpoint strean to get all apps containing 'google' domain and 'monitor' tag
 
 *Note if Defender for Endpoint stream is used, "deviceCount" will be presented as well
 
-*Note Currently AppInfo (Hipaa and GDPR in the below example) is not supported - known issue to be fixed by mid-July
-
 ```HTML
-GET  https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<endpointStreamId>/aggregatedAppsDetails(period=duration'P30D')?$filter=(appInfo/isHipaaCompliant eq 'false' or appInfo/isGdprDataProtectionImpactAssessment eq 'false') and category eq 'Marketing'
+GET  https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<endpointStreamId>/aggregatedAppsDetails(period=duration'P30D')?$filter=contains('tags', 'monitor') and contains('domains', 'google')
 ```
 
 Expected response:
@@ -111,27 +110,31 @@ Expected response:
 ```JSON
 Response:
 {
-  "value": [
-    {
-      "@odata.type": "#microsoft.security.endpointDiscoveredCloudAppDetail",
-      "id": 13203423542,
-      "displayName": "Microsoft Exchange Online",
-      "riskScore": 10,
-      "totalNetworkTrafficInBytes": 243453345,
-      "uploadNetworkTrafficInBytes": 934564,
-      "downloadNetworkTraficInBytes": 242518781,
-      "transactionCount": 52,
-      "userCount": 49,
-      "deviceCount": 37,
-      "ipAddressCount": 33,
-      "lastSeenDateTime": "2022-08-14",
-      "tags": ["Sanctioned"],
-      "category": "Marketing",
-      "domains": ["*.outlook.office.com", "*.outlook.office365.com", "*.mail.onmicrosoft.com", "*.o365weve.com",...]      
-
-    },
-    { "id": 845938765493, "displayName": "Dropbox", "riskScore": 9 }
-  ]
+    "@odata.context": "https://graph.microsoft.com/beta/$metadata#Collection(endpointDiscoveredCloudAppDetail)",
+    "value": [
+        {
+            "@odata.type": "#microsoft.graph.security.endpointDiscoveredCloudAppDetail",
+            "id": "15531",
+            "displayName": "Google Analytics",
+            "tags": [
+                "Monitored"
+            ],
+            "riskScore": 9,
+            "lastSeenDateTime": "2023-06-20T00:00:00Z",
+            "domains": [
+                "analytics.google.com",
+                "googleanalytics.com",
+                "google-analytics.com"
+            ],
+            "category": "collaboration",
+            "userCount": 14,
+            "deviceCount": 12,
+            "ipAddressCount": 8,
+            "transactionCount": 14,
+            "uploadNetworkTraficInBytes": 28056,
+            "downloadNetworkTraficInBytes": 390712
+        }
+    ]
 }
 ```
 #
