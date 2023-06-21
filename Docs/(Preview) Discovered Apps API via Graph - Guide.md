@@ -93,10 +93,13 @@ Response:{
 }
 ```
 *same for a collection of entities called Collection(discoveredCloudAppsipAddress) with 1 property called "ipAddress"
+
 *[Currently not supported - known issue to be fixed in mid-July] same for a collection of entities called Collection(discoveredCloudAppsDevice) with 1 property called "name". Note applicable only if the stream is Endpoint Stream.
 
-#### Using filters, see all apps which are categorized as Marketing and are not Hippa or GDPR compliant
+#### Using filters, see all apps which are categorized as Marketing and are not Hipaa or GDPR compliant
+
 *Note if Defender for Endpoint stream is used, "deviceCount" will be presented as well
+
 *Note Currently AppInfo (Hipaa and GDPR in the below example) is not supported - known issue to be fixed by mid-July
 
 ```HTML
