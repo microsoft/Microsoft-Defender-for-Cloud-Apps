@@ -13,7 +13,9 @@ This API will allow customers to GET all the data available in Discovered Apps p
 
 ## Basic Features Functionality:
 1.	Run the following GET command to get an high-level summary of the Discovery streams enabled on your tenant: 
+```HTML
 https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams
+```
   ![image](https://github.com/microsoft/Microsoft-Defender-for-Cloud-Apps/assets/116388443/2ad17c97-c9f4-4736-9f2c-7827bd61db10)
   
 2. Copy the relevant 'streamId': 
