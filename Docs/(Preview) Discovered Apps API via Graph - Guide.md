@@ -36,7 +36,7 @@ https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/upload
 
 #### Code or REST operation example:
 ```HTML 
-GET  https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<streamId>/aggregatedAppsDetails (period=duration 'P7D') 
+GET  https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<streamId>/aggregatedAppsDetails(period=duration'P7D') 
 ```
 
 Expected response:
@@ -65,7 +65,7 @@ Response:{
 ```
 #### Using $select, and $filter see only the app name of all the apps discovered in the last 30 days with risk score lower or equal to 4:
 ```HTML 
-GET https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<streamId>/aggregatedAppsDetails (period=duration'P30D')?$filter=riskRating  le 4 &$select=displayName Response:
+GET https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<streamId>/aggregatedAppsDetails(period=duration'P30D')?$filter=riskScore le 4 &$select=displayName 
 ```
 
 Expected response:
@@ -80,7 +80,7 @@ Expected response:
 #### Get the userIdentifier of all users (or devices or IPaddresses) using a specific app
 
 ```HTML 
-GET  https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<streamId>/aggregatedAppsDetails (period=duration'P30D')/ <id>/users 
+GET  https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<streamId>/aggregatedAppsDetails(period=duration'P30D')/<id>/users 
 ```
 
 Expected response:
@@ -93,14 +93,14 @@ Response:{
 }
 ```
 *same for a collection of entities called Collection(discoveredCloudAppsipAddress) with 1 property called "ipAddress"
-
-*same for a collection of entities called Collection(discoveredCloudAppsDevice) with 1 property called "name". Note applicable only if the stream is Endpoint Stream.
+*[Currently not supported - known issue to be fixed in mid-July] same for a collection of entities called Collection(discoveredCloudAppsDevice) with 1 property called "name". Note applicable only if the stream is Endpoint Stream.
 
 #### Using filters, see all apps which are categorized as Marketing and are not Hippa or GDPR compliant
 *Note if Defender for Endpoint stream is used, "deviceCount" will be presented as well
+*Note Currently AppInfo (Hipaa and GDPR in the below example) is not supported - known issue to be fixed by mid-July
 
 ```HTML
-GET  https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<endpointStreamId>/aggregatedAppsDetails (period=duration 'P30D')?$filter= (appInfo/Hippa eq 'false' or appInfo/GDPR eq 'false') and category eq 'Marketing' 
+GET  https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<endpointStreamId>/aggregatedAppsDetails(period=duration'P30D')?$filter=(appInfo/isHipaaCompliant eq 'false' or appInfo/isGdprDataProtectionImpactAssessment eq 'false') and category eq 'Marketing'
 ```
 
 Expected response:
