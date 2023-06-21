@@ -168,9 +168,14 @@ You will need to customize the permissions needed for managing Cloud Discovery
 Note: You can also use certificates
  ![Alt text](assets/image-3.png)
   
-### 5. Capture the Application(client)ID, TenantID, the App secret
- Powershell sample:
- 
+### 5. Capture the Application(client)ID and TenantID
+ ![Alt text](assets/image-4.png)
+ Make sure you have these 3 values captured:
+| Property              | Value         | 
+| --------------------- |:-------------:| 
+|TenantID               |               |
+|Application(client) ID |               |
+|Application secret     |               |
 
 ### 6. Now you configure your script/code to use the authorized App to query the API.
  Powershell sample:
