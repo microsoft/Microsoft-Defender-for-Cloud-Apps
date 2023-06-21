@@ -1,6 +1,6 @@
 # Discovered Apps API via Microsoft Graph
 
-### Contacts
+**Contacts**
 | Name | Role          |
 | --------------- | -- |
 | Itai Cohen      | PM |
@@ -142,7 +142,7 @@ Response:
 #
 # Using Graph API
 ## Best practices of how to use Graph API
-### Here are the steps to register an Azure AD app with these permissions, if you want to test this with a script such as PowerShell:
+Here are the steps to register an Azure AD app with these permissions, if you want to test this with a script such as PowerShell:
 
 ### 1. Create an App using either [Application Context](https://learn.microsoft.com/en-us/defender-cloud-apps/api-authentication-application) or [User Context](https://learn.microsoft.com/en-us/defender-cloud-apps/api-authentication-user) and give it consent.
 In general, you’ll need to take the following steps to use the APIs:
@@ -168,11 +168,15 @@ You will need to customize the permissions needed for managing Cloud Discovery
 Note: You can also use certificates
  ![Alt text](assets/image-3.png)
   
-### 5. Now you configure your script/code to use the authorized App to query the API.
+### 5. Capture the Application(client)ID, TenantID, the App secret
+ Powershell sample:
+ 
+
+### 6. Now you configure your script/code to use the authorized App to query the API.
  Powershell sample:
  [Placeholder]
 
-### 6. [Optional] Integrate with PBI 
+### [Optional] Integrate with PBI 
  [Placeholder]
 
 
