@@ -299,7 +299,7 @@ Note: You can also use certificates
 | Server-side pagination |     ✓     | `@odata.nextLink`                       |       |
 | Filter - equals        |     ✓     | `/collection?$filter=name eq 'example'` |       |
 
-#### discoveredCloudAppInfo
+#### discoveredCloudAppInfo - [Currently not supported: known issue to be fixed in mid-July]
 
 ##### Properties
 
