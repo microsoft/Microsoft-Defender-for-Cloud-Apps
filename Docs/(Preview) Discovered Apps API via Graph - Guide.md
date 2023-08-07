@@ -9,7 +9,7 @@
 
 
 ## Background:
-This API will allow customers to GET all the data available in Discovered Apps page via an API; including filters, ‘select’ (https://learn.microsoft.com/en-us/graph/query-parameters?tabs=http#odata-system-query-options) and more. 
+This new API will allow customers to GET all the data available in Discovered Apps page via an API; The API will support using filters, ‘select’ (https://learn.microsoft.com/en-us/graph/query-parameters?tabs=http#odata-system-query-options) and more. 
 
 ## Basic Features Functionality:
 1.	Run the following GET command to get an high-level summary of the Discovery streams enabled on your tenant: 
