@@ -178,8 +178,177 @@ Note: You can also use certificates
 |Application secret     |               |
 
 ### 6. Now you configure your script/code to use the authorized App to query the API.
- Powershell sample:
- [Placeholder]
+ Powershell sample code:
+
+Note: These sample PS examples are just to ilustrate how to obtain the token for the registered applicaiton, and to use that token to connect to the API and get started with pulling data from the API endpoints.
+You will need to customize this according to your organization's policies and procedures.
+Depending on the size of your organization you will need to handle pagination, which is not covered on the sample code.
+
+Step 1: #Obtaining access token from your App registered in Entra ID (Azure Active Directory)
+```Powershell
+<#
+.SYNOPSIS
+    Retrieves an Azure AD access token using an App credential and storing in a global variable to be easily accessible in other PS scripts/commands.
+.DESCRIPTION
+    This function retrieves an Azure AD access token using client credentials. The access token is used to authenticate requests to the Microsoft Graph API.
+.PARAMETER ClientId
+    The client ID of the Azure AD application.
+.PARAMETER TenantId
+    The tenant ID of the Azure AD directory.
+.PARAMETER ClientSecret
+    The client secret of the Azure AD application.
+.EXAMPLE
+    PS C:\> Get-AzureADAccessToken -ClientId "12345678-1234-1234-1234-1234567890ab" -TenantId "12345678-1234-1234-1234-1234567890ab" -ClientSecret "MyClientSecret"
+    Retrieves an Azure AD access token using the specified client ID, tenant ID, and client secret.
+#>
+$global:AzureADAccessToken = $null
+$global:AzureADAccessTokenExpiration = [DateTime]::MinValue
+
+function Get-AzureADAccessToken {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true)]
+        [string]$ClientId,
+        [Parameter(Mandatory = $true)]
+        [string]$TenantId,
+        [Parameter(Mandatory = $true)]
+        [string]$ClientSecret
+    )
+
+    Begin {
+        $ErrorActionPreference = 'Stop'
+    }
+
+    Process {
+        try {
+            $body = @{
+                'grant_type'    = 'client_credentials'
+                'client_id'     = $ClientId
+                'client_secret' = $ClientSecret
+                'resource'      = 'https://graph.microsoft.com'
+            }
+            $response = Invoke-RestMethod -Uri "https://login.microsoftonline.com/$TenantId/oauth2/token" -Method Post -Body $body
+            $global:AzureADAccessToken = $response.access_token
+            $global:AzureADAccessTokenExpiration = (Get-Date).AddSeconds($response.expires_in)
+            write-host "Access token expires at $($global:AzureADAccessTokenExpiration)"
+        }
+        catch {
+            Write-Error $_.Exception.Message
+        }
+    }
+}
+```
+Now that you've obtained a valid token you can start querying the API.
+
+Ex #1: Querying the API to list all discovery streams
+```Powershell
+<# 
+.DESCRIPTION
+    Get the list of discovery streams. 
+    Discovery streams are a reference to where the discovery data is stored.
+    For example, Defender for Endpoint automatically uploads to a discovery stream called "Win10 Endpoint Users"
+    You may have multiple discovery streams if you have multiple sources of discovery data.
+#>
+
+# Check if access token is still valid
+if ($null -eq $global:AzureADAccessToken -or $global:AzureADAccessTokenExpiration -lt $now) {
+    Write-Host "Access token is not valid. Please run the Get-AzureADAccessToken cmdlet again."
+    return
+}
+
+# Call the API to get the list of discovery streams
+$resourceGraph = "https://graph.microsoft.com"
+$discoveryStreamsEndpoint = "$resourceGraph/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams"
+$headers = @{
+    'Authorization' = "Bearer $($global:AzureADAccessToken)"
+}
+$response = Invoke-RestMethod -Uri $discoveryStreamsEndpoint -Headers $headers -Method GET
+$DiscoveryStreams = $response.value
+$DiscoveryStreams
+#Optional: Export each stream to excel
+#$DiscoveryStreams | Export-Csv -Path "<FolderPath>\MDA_DiscoveryStreams.csv"
+
+```
+Ex #2: Listing all discovered apps from a specific discovery stream.
+
+```Powershell
+<# 
+.DESCRIPTION
+    Get the list of discovered Apps for a specific Discovery Stream 
+.PARAMETER StreamID, StreamTimeFrame
+    You need to specify these two paramaters in order to obtain information about this App in the given time frame. 
+#>
+#Define the Stream ID
+$StreamID = "5fc7b832ec839dcf131de937"
+#Define the Stream Time Frame (Valid values are P7D P30D P90D)
+$streamTimeFrame = "P7D"
+
+# Check if access token is still valid
+if ($null -eq $global:AzureADAccessToken -or $global:AzureADAccessTokenExpiration -lt $now) {
+    Write-Host "Access token is not valid. Please run the Get-AzureADAccessToken cmdlet again."
+    return
+}
+
+# Call the API to get the list of discovered Apps for a specific Discovery Stream 
+$resourceGraph = "https://graph.microsoft.com"
+$discoveredAppsEndpoint = "$resourceGraph/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/$streamID/aggregatedAppsDetails(period=duration'$streamTimeFrame')"
+$headers = @{
+    'Authorization' = "Bearer $($global:AzureADAccessToken)"
+}
+$response = Invoke-RestMethod -Uri $discoveredAppsEndpoint -Headers $headers -Method GET
+$DiscoveredApps = $response.value
+$DiscoveredApps
+#Optional: Export the list of Apps to excel
+#$DiscoveredApps | Export-Csv -Path "<FolderPath>\MDA_DiscoveredApps.csv"
+
+```
+Ex #3: Listing all users from a specific App
+```Powershell
+<# 
+.DESCRIPTION
+    Get the list of users for a specific App, within a specific stream 
+.PARAMETER StreamID, AppID, StreamTimeFrame
+    You need to specify these three paramaters in order to obtain information about the users using this App in the given time frame. 
+#>
+#Define the Stream ID
+$StreamID = "5fc7b832ec839dcf131de937"
+#Define the App ID
+$AppID = "20893"
+#Define the Stream Time Frame (Valid values are P7D P30D P90D)
+$streamTimeFrame = "P30D"
+
+# Check if access token is still valid
+if ($null -eq $global:AzureADAccessToken -or $global:AzureADAccessTokenExpiration -lt $now) {
+    Write-Host "Access token is not valid. Please run the Get-AzureADAccessToken cmdlet again."
+    return
+}
+# Call the API to get the list of users for a specific App, within a specific stream
+$resourceGraph = "https://graph.microsoft.com"
+$discoveredAppsEndpoint = "$resourceGraph/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/$streamID/aggregatedAppsDetails(period=duration'$streamTimeFrame')/$AppID"
+$discoveredUsersEndpoint = "$resourceGraph/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/$streamID/aggregatedAppsDetails(period=duration'$streamTimeFrame')/$appID/users"
+$headers = @{
+    'Authorization' = "Bearer $($global:AzureADAccessToken)"
+}
+$response1 = Invoke-RestMethod -Uri $discoveredAppsEndpoint -Headers $headers -Method GET
+$DiscoveredAppName = $response1.displayName
+$DiscoveredAppUsers = $response1.usercount
+write-host "Discovered App Name: " $DiscoveredAppName
+write-host "Discovered App Users: " $DiscoveredAppUsers
+
+$response2 = Invoke-RestMethod -Uri $discoveredUsersEndpoint -Headers $headers -Method GET
+$DiscoveredUsersList = $response2.value 
+
+$count = 0
+$DiscoveredUsersListArray = @()
+#get a list of users to remove duplicates
+foreach ($DiscoveredUsersList in $DiscoveredUsersList) {
+    $DiscoveredUsersListArray += "$DiscoveredUsersList",""
+    $count++
+}
+$DiscoveredUsersListArray = $DiscoveredUsersListArray | Where-Object {$_ -ne ""} | Select-Object -Unique 
+$DiscoveredUsersListArray = ConvertTo-Json $DiscoveredUsersListArray
+write-host "Discovered Users: " $DiscoveredUsersListArray 
+```
 
 ### [Optional] Integrate with PBI 
  [Placeholder]

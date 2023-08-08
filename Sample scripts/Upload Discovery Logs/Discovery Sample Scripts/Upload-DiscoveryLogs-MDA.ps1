@@ -15,7 +15,7 @@
 $TenantURL = "<Your Tenant URL>" # you can find this at https://security.microsoft.com/cloudapps/settings?tabid=about
 $LogSource = "PALO_ALTO" #Change to your log source (Refernce https://learn.microsoft.com/en-us/defender-cloud-apps/api-discovery-initiate#request-url-parameters)
 $DataSourceName = "PaloAltoDemo" #Create a Data Source in "Automatic log upload" in https://security.microsoft.com/cloudapps/settings?tabid=discovery-autoUpload&innertab=dataSources
-$sourceScriptFolder = "<Ex:C:\Scripts\Discover>" #This is the path to the Discover folder where the PowerShell scripts are
+$sourceScriptFolder = "<FOLDER>\Discovery" #This is the path to the Discover folder where the PowerShell scripts are
 $sourceLogFolder = $sourceScriptFolder+"\NewLogs" #This is the folder where you copy the firewall logs to
 $destinationLogFolder = $sourceScriptFolder+"\ArchivedLogs" #This is the folder where you want to move the processed logs to
 
@@ -184,19 +184,10 @@ $LogFilesCount = (Get-ChildItem $sourceLogFolder).Count
 Write-Host "Found" $LogFilesCount "log files" -BackgroundColor White -ForegroundColor Black
 Write-Host "Beginning upload sequence..." -BackgroundColor White -ForegroundColor Black
 
-#Testing if Get-AppToken-MDA.ps1 exists and obtaining a new token
-if (Test-Path "$sourceScriptFolder\Get-AppToken-MDA.ps1"){
-        Write-Host "Powershell file found, running it to get the access token"
-        $token = .$sourceScriptFolder/Get-AppToken-MDA.ps1
-        if($token){
-            Write-Host "Token acquired!"
-        }else { 
-            Write-Host "Something went wrong and we couldn't get a token, please verify if Get-AppToken-MDA.ps1 is configured properly" -f Red
-        break
-        }
-}else { 
-        Write-Host "Powershell file not found, please copy Get-AppToken-MDA.ps1 to this folder" -f Red
-        break
+# Check if access token is still valid
+if ($null -eq $global:AzureADAccessTokenMDA -or $global:AzureADAccessTokenMDAExpiration -lt $now) {
+    Write-Host "Access token is not valid. Please run the Get-AzureADAccessToken cmdlet again."
+    return
 }
 
 #Initiate loop to process each log file
@@ -214,13 +205,13 @@ Get-ChildItem $sourceLogFolder | ForEach-Object {
     }else{
 
         # Get upload URL
-        $UploadURL = GetUploadURL $token $fileName
+        $UploadURL = GetUploadURL $global:AzureADAccessTokenMDA $fileName
 
         # Initiate Upload
         $UploadStatus = InitiateUpload $UploadURL $file
 
         # Complete Upload
-        $CompletionStatus = CompleteUpload $token $UploadURL $TenantURL $DataSourceName 
+        $CompletionStatus = CompleteUpload $global:AzureADAccessTokenMDA $UploadURL $TenantURL $DataSourceName 
     
         # Move the processed file to the destination folder
         Move-Item $file -Destination $destinationLogFolder

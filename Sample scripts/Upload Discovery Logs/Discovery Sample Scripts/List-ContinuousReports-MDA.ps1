@@ -1,26 +1,22 @@
-﻿<################################################
+﻿<# 
+.DESCRIPTION
+    Get the list of continuous discovery reports in Defender for Cloud Apps. 
+    Discovery reports are a reference to where the discovery data is stored.
+    
+#>
+<################################################
    Setting variables
 ################################################>
 
-$TenantURL = "<Your Tenant URL>" # you can find this at https://security.microsoft.com/cloudapps/settings?tabid=about
+$TenantAPIURL = "<Your Tenant URL>" # you can find this at https://security.microsoft.com/cloudapps/settings?tabid=about
 $LogSource = "PALO_ALTO" #Change to your log source (Refernce https://learn.microsoft.com/en-us/defender-cloud-apps/api-discovery-initiate#request-url-parameters)
-
-$sourceScriptFolder = "<Folder>\Discovery" #This is the folder where the PowerShell scripts are
 $ReportsFolder = "<Folder>\Discovery\Reports" #This is the folder where the PowerShell scripts are
 
-#Testing if Get-AppToken-MDA.ps1 exists and obtaining a new token
-if (Test-Path "$sourceScriptFolder\Get-AppToken-MDA.ps1"){
-        Write-Host "Powershell file found, running it to get the access token"
-        $token = ./Get-AppToken-MDA.ps1
-        if($token){
-            Write-Host "Token acquired!"
-        }else { 
-            Write-Host "Something went wrong and we couldn't get a token, please verify if Get-AppToken-MDA.ps1 is configured properly" -f Red
-        break
-        }
-}else { 
-        Write-Host "Powershell file not found, please copy Get-AppToken-MDA.ps1 to this folder" -f Red
-        break
+
+# Check if access token is still valid
+if ($null -eq $global:AzureADAccessTokenMDA -or $global:AzureADAccessTokenMDAExpiration -lt $now) {
+    Write-Host "Access token is not valid. Please run the Get-AzureADAccessToken cmdlet again."
+    return
 }
 
 
@@ -35,12 +31,12 @@ if (Test-Path "$sourceScriptFolder\Get-AppToken-MDA.ps1"){
 
     <# Construct Graph API call #>
     $Headers = @{
-        "Authorization" = "Bearer $($token)"
+        "Authorization" = "Bearer $($global:AzureADAccessTokenMDA)"
         "Content-type"  = "application/json"
     }
 
     try {
-        $apiUri = $TenantURL+$APIEndpoint
+        $apiUri = $TenantAPIURL+$APIEndpoint
         $GetList = (Invoke-RestMethod -Headers $Headers -Uri $apiUri -Method GET)
         if($GetList) 
         {
@@ -67,13 +63,14 @@ if (Test-Path "$sourceScriptFolder\Get-AppToken-MDA.ps1"){
 
     } 
     catch {
+        Write-Host "Error: " -ForegroundColor Red -NoNewline
+        Write-Error $_.Exception.Message
         $ex = $_.Exception
-        $errorResponse = $ex.Response.GetResponseStream()
-        $reader = New-Object System.IO.StreamReader($errorResponse)
-        $reader.BaseStream.Position = 0
-        $reader.DiscardBufferedData()
-        $responseBody = $reader.ReadToEnd();
-        Write-Host "Response content for getting Upload URL:`n$responseBody" -f Red
+        #$errorResponse = $ex.Response.GetResponseStream()
+        #$reader = New-Object System.IO.StreamReader($errorResponse)
+        #$reader.BaseStream.Position = 0
+        #$reader.DiscardBufferedData()
+        #$responseBody = $reader.ReadToEnd();
         Write-Error "Request to $apiUri failed with HTTP Status $($ex.Response.StatusCode) $($ex.Response.StatusDescription)"
         write-host
         break
