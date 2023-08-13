@@ -27,10 +27,6 @@ GET  [https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/
 ```
 We sometimes see duplicated users.
 
-3. $select=category is not working. Example:
-```HTML 
-GET  [https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<streamId>/aggregatedAppsDetails(period=duration'P90D')?$select=category]
-```
 
 ## Basic Features Functionality:
 1.	Run the following GET command to get an high-level summary of the Discovery streams enabled on your tenant: 
