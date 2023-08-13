@@ -11,6 +11,27 @@
 ## Background:
 This new API will allow customers to GET all the data available in Discovered Apps page via an API; The API will support using filters, ‘select’ (https://learn.microsoft.com/en-us/graph/query-parameters?tabs=http#odata-system-query-options) and more. 
 
+## Temporary Known Issues:
+Since this is a preview version, we keep detecting and updating known issues. This is a list of issues we are familiar with and are planned to be fixed in the near future.
+As long as we are in private preview mode, when an issue is fixed, it will be removed from this list and if a new issue is detected it will be added to this list:
+
+1. When calling the AppInfo extension of a specific application using this example path:
+```HTML 
+GET  [https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<streamId>/aggregatedAppsDetails(period=duration'P90D')/<appId>/appInfo]
+```
+Some applications will return an error if an non-expected paramerter is empty.
+
+2. When calling the list of users of a specific application using this example path:
+```HTML 
+GET  [https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<streamId>/aggregatedAppsDetails(period=duration'P90D')/<appId>/users]
+```
+We sometimes see duplicated users.
+
+3. $select=category is not working. Example:
+```HTML 
+GET  [https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<streamId>/aggregatedAppsDetails(period=duration'P90D')?$select=category]
+```
+
 ## Basic Features Functionality:
 1.	Run the following GET command to get an high-level summary of the Discovery streams enabled on your tenant: 
 ```HTML
