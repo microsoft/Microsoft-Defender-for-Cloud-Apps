@@ -158,6 +158,8 @@ Response:
 ```
 #
 # Using Graph API
+https://learn.microsoft.com/en-us/graph/
+
 ## Best practices of how to use Graph API
 Here are the steps to register an Azure AD app with these permissions, if you want to test this with a script such as PowerShell:
 
