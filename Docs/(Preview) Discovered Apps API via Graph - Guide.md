@@ -21,7 +21,9 @@ GET  [https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/
 ```
 Some applications will return an error if an non-expected paramerter is empty.
 
-2. When calling the list of users of a specific application using this example path:
+2.  Filtering according to appInfo parameters is not supported yet. For example, the ability to return all applications that are Hipaa compliant is not supported yet.
+   
+3.  When calling the list of users of a specific application using this example path:
 ```HTML 
 GET  [https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<streamId>/aggregatedAppsDetails(period=duration'P90D')/<appId>/users]
 ```
