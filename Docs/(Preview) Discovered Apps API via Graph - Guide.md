@@ -61,25 +61,98 @@ GET  https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/u
 
 Expected response:
 ```JSON
-Response:{
-  "value": [
+Response:
     {
-      "@odata.type": "#microsoft.security.DiscoveredCloudAppDetail",
-      "id": 13203423542,
-      "displayName": "Microsoft Exchange Online",
-      "riskScore": 10,
-      "totalNetworkTrafficInBytes": 243453345,
-      "uploadNetworkTrafficInBytes": 934564,
-      "downloadNetworkTraficInBytes": 242518781,
-      "transactionCount": 52,
-      "userCount": 49,
-      "ipAddressCount": 33,
-      "lastSeenDateTime": "2022-08-14",
-      "tags": ["Sanctioned"],
-      "category": "Marketing",
-      "domains": ["*.outlook.office.com", "*.outlook.office365.com", "*.mail.onmicrosoft.com", "*.o365weve.com",...]      
-    },
-    { "id": 845938765493, "displayName": "Dropbox", "riskScore": 9 }
+    "@odata.context": "https://graph.microsoft.com/beta/$metadata#Collection(discoveredCloudAppDetail)",
+    "@odata.nextLink": "https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/5c46d9e893b4c1fa3af92dc9/aggregatedAppsDetails(period=duration'P7D')?$skip=100",
+    "value": [
+        {
+            "@odata.type": "#microsoft.graph.security.endpointDiscoveredCloudAppDetail",
+            "id": "11599",
+            "displayName": "Amazon Web Services",
+            "tags": [
+                "Protected"
+            ],
+            "riskScore": 10,
+            "lastSeenDateTime": "2023-08-08T00:00:00Z",
+            "domains": [
+                "aws.amazon.com",
+                "amazonaws.com",
+                "awsstatic.com",
+                "amazonwebservices.com",
+                "amazonaws.com.cn",
+                "amazonaws.cn"
+            ],
+            "category": "cloudComputingPlatform",
+            "userCount": 14,
+            "ipAddressCount": 6,
+            "transactionCount": 81,
+            "uploadNetworkTraficInBytes": 11911,
+            "downloadNetworkTraficInBytes": 0,
+            "deviceCount": 15
+        },
+        {
+            "@odata.type": "#microsoft.graph.security.endpointDiscoveredCloudAppDetail",
+            "id": "11627",
+            "displayName": "Dropbox",
+            "tags": [
+                "Protected"
+            ],
+            "riskScore": 10,
+            "lastSeenDateTime": "2023-08-08T00:00:00Z",
+            "domains": [
+                "dropbox.com",
+                "dropboxstatic.com",
+                "dropboxusercontent.com",
+                "db.tt",
+                "dropboxapi.com",
+                "dropboxbusiness.com",
+                "dropboxdocs.com",
+                "dropboxforums.com",
+                "dropboxforum.com",
+                "dropboxinsiders.com",
+                "dropboxmail.com",
+                "dropboxpartners.com",
+                "dropbox.zendesk.com",
+                "getdropbox.com",
+                "dropboxbusinessblog.nl",
+                "dropboxbusinessblog.fr",
+                "dropbox.co.uk",
+                "dropboxbusinessblog.de",
+                "dropbox.jp",
+                "dropbox.com.au",
+                "instructorledlearning.dropboxbusiness.com",
+                "paper.dropbox.com"
+            ],
+            "category": "cloudStorage",
+            "userCount": 61,
+            "ipAddressCount": 68,
+            "transactionCount": 135,
+            "uploadNetworkTraficInBytes": 113885,
+            "downloadNetworkTraficInBytes": 0,
+            "deviceCount": 61
+        },
+        {
+            "@odata.type": "#microsoft.graph.security.endpointDiscoveredCloudAppDetail",
+            "id": "20373",
+            "displayName": "Bank of America",
+            "tags": [
+                "Sanctioned"
+            ],
+            "riskScore": 8,
+            "lastSeenDateTime": "2023-08-08T00:00:00Z",
+            "domains": [
+                "bankofamerica.com"
+            ],
+            "category": "accountingAndFinance",
+            "userCount": 8,
+            "ipAddressCount": 6,
+            "transactionCount": 9,
+            "uploadNetworkTraficInBytes": 8199,
+            "downloadNetworkTraficInBytes": 0,
+            "deviceCount": 9
+        },
+        {...}
   ]
 }
 ```
