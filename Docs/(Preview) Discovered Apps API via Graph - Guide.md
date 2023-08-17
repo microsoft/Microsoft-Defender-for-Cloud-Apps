@@ -189,7 +189,7 @@ Response:{
 ```
 *same for a collection of entities called Collection(discoveredCloudAppsipAddress) with 1 property called "ipAddress"
 
-*[Currently not supported - known issue to be fixed in mid-July] same for a collection of entities called Collection(discoveredCloudAppsDevice) with 1 property called "name". Note applicable only if the stream is Endpoint Stream.
+*same for a collection of entities called Collection(discoveredCloudAppsDevice) with 1 property called "name". Note applicable only if the stream is Endpoint Stream.
 
 #### Using filters, and Defender for Endpoint strean to get all apps containing 'google' domain and 'monitor' tag
 
@@ -559,7 +559,7 @@ write-host "Discovered Users: " $DiscoveredUsersListArray
 | Server-side pagination |     ✓     | `@odata.nextLink`                       |       |
 | Filter - equals        |     ✓     | `/collection?$filter=name eq 'example'` |       |
 
-#### discoveredCloudAppInfo - [Currently not supported: known issue to be fixed in mid-July]
+#### discoveredCloudAppInfo
 
 ##### Properties
 
