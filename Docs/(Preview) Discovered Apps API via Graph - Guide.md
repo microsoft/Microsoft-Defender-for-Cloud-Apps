@@ -20,6 +20,10 @@ As long as we are in private preview mode, when an issue is fixed, it will be re
 GET  [https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<streamId>/aggregatedAppsDetails(period=duration'P90D')/<appId>/appInfo]
 ```
 Some applications will return an error if an non-expected paramerter is empty.
+An example of an application that does work is Dropbox since all the compliance parameters are "non-nullable".
+```HTML 
+GET  [https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/5c46d9e893b4c1fa3af92dc9/aggregatedAppsDetails(period=duration'P90D')/11627/appInfo]
+```
 
 2.  Filtering according to appInfo parameters is not supported yet. For example, the ability to return all applications that are Hipaa compliant is not supported yet.
    
