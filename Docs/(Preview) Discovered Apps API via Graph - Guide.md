@@ -31,7 +31,7 @@ GET  [https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/
 ```HTML 
 GET  [https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<streamId>/aggregatedAppsDetails(period=duration'P90D')/<appId>/users]
 ```
-We sometimes see duplicated users.
+We see duplicated users and performance issues in large scale.
 
 
 ## Basic Features Functionality:
