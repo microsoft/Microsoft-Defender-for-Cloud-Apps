@@ -24,10 +24,8 @@ An example of an application that does work is Dropbox since all the compliance 
 ```HTML 
 GET  [https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/5c46d9e893b4c1fa3af92dc9/aggregatedAppsDetails(period=duration'P90D')/11627/appInfo]
 ```
-
-2.  Filtering according to appInfo parameters is not supported yet. For example, the ability to return all applications that are Hipaa compliant is not supported yet.
    
-3.  When calling the list of users of a specific application using this example path:
+2.  When calling the list of users of a specific application using this example path:
 ```HTML 
 GET  [https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<streamId>/aggregatedAppsDetails(period=duration'P90D')/<appId>/users]
 ```
