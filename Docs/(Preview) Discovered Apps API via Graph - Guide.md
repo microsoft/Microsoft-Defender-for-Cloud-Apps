@@ -193,7 +193,7 @@ Response:{
 
 *same for a collection of entities called Collection(discoveredCloudAppsDevice) with 1 property called "name". Note applicable only if the stream is Endpoint Stream.
 
-#### Using filters, and Defender for Endpoint strean to get all apps containing 'google' domain and 'monitor' tag
+#### Using filters, and Defender for Endpoint stream to get all apps containing 'google' domain and 'monitor' tag
 
 *Note if Defender for Endpoint stream is used, "deviceCount" will be presented as well
 
