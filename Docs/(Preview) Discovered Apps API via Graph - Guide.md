@@ -184,14 +184,35 @@ Expected response:
 
 ```JSON
 Response:{
-  "value": [
-    { "userIdentifier": "Broderick@fabrikan.com"}, {" userIdentifier": "temp@fabrikan.com"}
-  ]
+    "@odata.context": "https://graph.microsoft.com/beta/$metadata#microsoft.graph.security.discoveredCloudAppDetail/users",
+    "@odata.nextLink": "https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/5c46d9e893b4c1fa3af92dc9/aggregatedAppsDetails(period=duration'P90D')/11627/users?$skip=100",
+    "value": [
+        {
+            "userIdentifier": "User_KSzxdM1v833oYU1kLo9m7w=="
+        },
+        {
+            "userIdentifier": "User_dTJKZkyR5dduH6IJ3CXMpQ=="
+        },
+        {
+            "userIdentifier": "User_dbWwJO6JU1nblpCIXsgVyw=="
+        },
+        {
+            "userIdentifier": "User_74Kvc580KwbH385JBYkDE746xJgq-MnffmExc9fgEZ0="
+        },
+        {
+            "userIdentifier": "User_g1nZHeyc5zM9jJyfV5EbJA=="
+        },
+     .....
+    ]
 }
 ```
-*same for a collection of entities called Collection(discoveredCloudAppsipAddress) with 1 property called "ipAddress"
+##### To get the next 100 users:
+```HTML 
+GET  https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<streamId>/aggregatedAppsDetails(period=duration'P30D')/<id>/users?$skip=100
+```
+##### Same for a collection of entities called Collection(discoveredCloudAppsipAddress) with 1 property called "ipAddress"
 
-*same for a collection of entities called Collection(discoveredCloudAppsDevice) with 1 property called "name". Note applicable only if the stream is Endpoint Stream.
+##### Same for a collection of entities called Collection(discoveredCloudAppsDevice) with 1 property called "name". Note applicable only if the stream is Endpoint Stream.
 
 #### Using filters, and Defender for Endpoint stream to get all apps containing 'google' domain and 'monitor' tag
 
