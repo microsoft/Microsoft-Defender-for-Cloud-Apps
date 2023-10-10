@@ -233,6 +233,39 @@ Response:
     ]
 }
 ```
+
+#### Advanced AppInfo filters example:
+```HTML
+GET
+https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<streamId>/aggregatedAppsDetails(period=duration'P90D')?$filter=appInfo/isHipaaCompliant eq 'False' and appInfo/isSoc2Compliant eq 'False' and riskScore le 4 &$select=displayName
+```
+Expected response:
+
+```JSON
+Response:
+{
+    "@odata.context": "https://graph.microsoft.com/beta/$metadata#Collection(discoveredCloudAppDetail)",
+    "value": [
+        {
+            "@odata.type": "#microsoft.graph.security.discoveredCloudAppDetail",
+            "displayName": "SendMyWay"
+        },
+        {
+            "@odata.type": "#microsoft.graph.security.discoveredCloudAppDetail",
+            "displayName": "Arab Loads"
+        },
+        {
+            "@odata.type": "#microsoft.graph.security.discoveredCloudAppDetail",
+            "displayName": "Secure Online Desktop"
+        },
+        {
+            "@odata.type": "#microsoft.graph.security.discoveredCloudAppDetail",
+            "displayName": "File Dropper"
+        }
+    ]
+}
+```
+
 #
 # Using Graph API
 https://learn.microsoft.com/en-us/graph/
