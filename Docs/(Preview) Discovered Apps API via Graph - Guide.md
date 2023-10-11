@@ -160,7 +160,9 @@ Response:
 ```
 *Note if the streamId is related to Defender for Endpoints, another property called "deviceCount" will be present and the "@odata.type": "#microsoft.security.endpointDiscoveredCloudAppDetail"
 
-#### Using $select, and $filter see only the app name of all the apps discovered in the last 30 days with risk score lower or equal to 4:
+#### Simple $filter and $select example:
+*Using $select, and $filter see only the app name of all the apps discovered in the last 30 days with risk score lower or equal to 4:
+
 ```HTML 
 GET https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<streamId>/aggregatedAppsDetails(period=duration'P30D')?$filter=riskScore le 4 &$select=displayName 
 ```
@@ -175,7 +177,6 @@ Expected response:
 }
 ```
 #### Get the userIdentifier of all users (or devices or IPaddresses) using a specific app
-
 ```HTML 
 GET  https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<streamId>/aggregatedAppsDetails(period=duration'P30D')/<id>/users 
 ```
@@ -255,7 +256,7 @@ Response:
 }
 ```
 
-#### Advanced AppInfo filters example:
+#### Advanced $filter and $select example:
 ```HTML
 GET
 https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<streamId>/aggregatedAppsDetails(period=duration'P90D')?$filter=appInfo/isHipaaCompliant eq 'False' and appInfo/isSoc2Compliant eq 'False' and riskScore le 4 &$select=displayName
