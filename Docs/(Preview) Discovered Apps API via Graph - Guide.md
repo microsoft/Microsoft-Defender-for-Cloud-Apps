@@ -16,18 +16,21 @@ Since this is a preview version, we keep detecting and updating known issues. Th
 As long as we are in private preview mode, when an issue is fixed, it will be removed from this list and if a new issue is detected it will be added to this list:
 
 1. When calling the AppInfo extension of a specific application using this example path:
+GET  
 ```HTML 
-GET  [https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<streamId>/aggregatedAppsDetails(period=duration'P90D')/<appId>/appInfo]
+[https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<streamId>/aggregatedAppsDetails(period=duration'P90D')/<appId>/appInfo]
 ```
 Some applications will return an error if an non-expected paramerter is empty.
 An example of an application that does work is Dropbox since all the compliance parameters are "non-nullable".
+GET  
 ```HTML 
-GET  [https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/5c46d9e893b4c1fa3af92dc9/aggregatedAppsDetails(period=duration'P90D')/11627/appInfo]
+[https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/5c46d9e893b4c1fa3af92dc9/aggregatedAppsDetails(period=duration'P90D')/11627/appInfo]
 ```
    
 2.  When calling the list of users of a specific application using this example path:
+GET  
 ```HTML 
-GET  [https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<streamId>/aggregatedAppsDetails(period=duration'P90D')/<appId>/users]
+[https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<streamId>/aggregatedAppsDetails(period=duration'P90D')/<appId>/users]
 ```
 We see duplicated users and performance issues in large scale.
 
@@ -44,9 +47,9 @@ https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/upload
     ![image](https://github.com/microsoft/Microsoft-Defender-for-Cloud-Apps/assets/116388443/3f944016-5e08-49cc-8495-737f5aa39601)
 
 3.	Run the following GET command using the 'streamId':
-  
+   GET  
   ```HTML 
-  GET https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<streamId>/aggregatedAppsDetails(period=duration'P90D')
+https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<streamId>/aggregatedAppsDetails(period=duration'P90D')
   ```
   
 ### Permissions Requirements: 
@@ -57,8 +60,9 @@ https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/upload
 ## Top Use Cases and Examples
 
 #### See all the apps discovered this week: 
+GET  
 ```HTML 
-GET  https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<streamId>/aggregatedAppsDetails(period=duration'P7D') 
+https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<streamId>/aggregatedAppsDetails(period=duration'P7D') 
 ```
 
 Expected response:
@@ -162,9 +166,9 @@ Response:
 
 #### Simple $filter and $select example:
 *Using $select, and $filter see only the app name of all the apps discovered in the last 30 days with risk score lower or equal to 4:
-
+GET 
 ```HTML 
-GET https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<streamId>/aggregatedAppsDetails(period=duration'P30D')?$filter=riskScore le 4 &$select=displayName 
+https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<streamId>/aggregatedAppsDetails(period=duration'P30D')?$filter=riskScore le 4 &$select=displayName 
 ```
 
 Expected response:
@@ -177,8 +181,9 @@ Expected response:
 }
 ```
 #### Get the userIdentifier of all users (or devices or IPaddresses) using a specific app
+GET  
 ```HTML 
-GET  https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<streamId>/aggregatedAppsDetails(period=duration'P30D')/<id>/users 
+https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<streamId>/aggregatedAppsDetails(period=duration'P30D')/<id>/users 
 ```
 
 Expected response:
@@ -208,8 +213,9 @@ Response:{
 }
 ```
 ##### To get the next 100 users:
+GET  
 ```HTML 
-GET  https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<streamId>/aggregatedAppsDetails(period=duration'P30D')/<id>/users?$skip=100
+https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<streamId>/aggregatedAppsDetails(period=duration'P30D')/<id>/users?$skip=100
 ```
 ##### Same for a collection of entities called Collection(discoveredCloudAppsipAddress) with 1 property called "ipAddress"
 
@@ -218,9 +224,9 @@ GET  https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/u
 #### Using filters, and Defender for Endpoint stream to get all apps containing 'google' domain and 'monitor' tag
 
 *Note if Defender for Endpoint stream is used, "deviceCount" will be presented as well
-
+GET  
 ```HTML
-GET  https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<endpointStreamId>/aggregatedAppsDetails(period=duration'P30D')?$filter=contains('tags', 'monitor') and contains('domains', 'google')
+https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<endpointStreamId>/aggregatedAppsDetails(period=duration'P30D')?$filter=contains('tags', 'monitor') and contains('domains', 'google')
 ```
 
 Expected response:
@@ -257,8 +263,8 @@ Response:
 ```
 
 #### Advanced $filter and $select example:
-```HTML
 GET
+```HTML
 https://graph.microsoft.com/beta/security/dataDiscovery/cloudAppDiscovery/uploadedStreams/<streamId>/aggregatedAppsDetails(period=duration'P90D')?$filter=appInfo/isHipaaCompliant eq 'False' and appInfo/isSoc2Compliant eq 'False' and riskScore le 4 &$select=displayName
 ```
 Expected response:
