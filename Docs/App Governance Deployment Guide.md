@@ -23,9 +23,9 @@ Once App Governance has been turned on there are a few key items to get familiar
 ### 1. Getting visibility and insights
 App Governance provides rich insights to help admins understand which apps exist and provide context on the risks they pose.  An administrator can [view apps](https://learn.microsoft.com/en-us/defender-cloud-apps/app-governance-visibility-insights-view-apps), [determine compliance posture](https://learn.microsoft.com/en-us/defender-cloud-apps/app-governance-visibility-insights-compliance-posture), and [see apps accessing sensitive content](https://learn.microsoft.com/en-us/defender-cloud-apps/app-governance-visibility-insights-sensitive-content)
 ### 2. Implementing app policies
+App governance also provides the ability to either [create policies](https://learn.microsoft.com/en-us/defender-cloud-apps/app-governance-app-policies-create) or use existing [pre-defined policies](https://learn.microsoft.com/en-us/defender-cloud-apps/app-governance-predefined-policies). Since App Governance is part of Defender for Cloud Apps and natively integrated with Microsoft XDR, our security researchers also author detections so protection comes out of the box.
 
 
-> [!VIDEO https://www.microsoft.com/videoplayer/embed/RE4YpJN]
 
 ### 3. Detect and remediate app threats
 ### 4. Secure apps and other assets
