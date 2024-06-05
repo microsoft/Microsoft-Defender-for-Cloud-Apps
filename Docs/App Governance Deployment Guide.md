@@ -25,7 +25,7 @@ App Governance provides rich insights to help admins understand which apps exist
 ### 2. Implementing app policies
 
 
-[!VIDEO https://www.microsoft.com/videoplayer/embed/RE4YpJN]
+> [!VIDEO https://www.microsoft.com/videoplayer/embed/RE4YpJN]
 
 ### 3. Detect and remediate app threats
 ### 4. Secure apps and other assets
