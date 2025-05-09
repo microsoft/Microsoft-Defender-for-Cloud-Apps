@@ -1,16 +1,16 @@
 # Created by the MDA CXE team for demonstration purposes.  This script is meant to be used as a sample and is not supported by Microsoft.
 # Use at your own risk or modify as needed.  This script is provided as is with no warranty or support.
-# The purpose of this script is to synchronize named locations from Azure AD to MDA.  This script will create new named locations in MDA if they don't exist 
-# or update existing named locations if the IP ranges have changed.  This script will not delete named locations in MDA if they are removed from Azure AD.
+# The purpose of this script is to synchronize named locations from Entra ID to MDA.  This script will create new named locations in MDA if they don't exist 
+# or update existing named locations if the IP ranges have changed.  This script will not delete named locations in MDA if they are removed from Entra ID.
 # ---------------------------------------------------------------------------------------
-# To utilize this script you will need to create an app registration in Azure AD with the following permissions:
-# Microsoft Graph - Directory.Read.All and then make sure it has also been consented to by an admin
+# To utilize this script you will need to create an app registration in Entra ID with the following permissions:
+# Microsoft Graph - Policy.Read.All and then make sure it has also been consented to by an admin
 # Cloud App Security - will require an API token from the MDA portal
 #---------------------------------------------------------------------------------------
-# Client ID, Secret, and Tenant ID for your Azure AD App Registration
+# Client ID, Secret, and Tenant ID for your Entra ID App Registration
 $clientId = "client ID from app registration"
 $clientSecret = "client secret from app registration"
-$tenantId = "AAD tenant ID"
+$tenantId = "Entra ID tenant ID"
 $mdaToken = "API token from MDA"
 $mdaHeader = @{Authorization = "Token " + $mdaToken }
 
@@ -44,12 +44,28 @@ function getNamedLocations {
         grant_type    = "client_credentials"
     }
     # Get token
-    $tokenResponse = Invoke-RestMethod -Method Post -Uri $uri -Body $body
-    # Get Azure AD named locations
+    $token = Invoke-RestMethod -Method Post -Uri $uri -Body $body -ContentType "application/x-www-form-urlencoded"
+
+    $accessToken = $token.access_token
+
+    # Store auth token into header for future use
+$headers = @{
+        'Content-Type' = 'application/json'
+        ##Accept = 'application/json'
+        Authorization = "Bearer $accessToken"
+    }
+    # Get Entra ID named locations
     $namedLocationsUri = "$resourceGraph/v1.0/identity/conditionalAccess/namedLocations"
-    $namedLocationsResponse = Invoke-RestMethod -Headers @{Authorization = "Bearer $($tokenResponse.access_token)" } -Uri $namedLocationsUri
+  
+    $namedLocationsResponse = Invoke-RestMethod -Headers $headers -Uri $namedLocationsUri -Method Get
+  
     return $namedLocationsResponse
-}
+    
+   
+ }
+    
+
+
 
 #---------------------------------------------------------------------------------------
 # Get the update endpoint for MDA to update the IP ranges and display name
@@ -108,7 +124,7 @@ function getCloudAppRanges {
 function createNewRange {
     param([string]$displayName, [string]$ipRange)
     $type = 1 
-    $tags = "AAD Named Location"
+    $tags = "Entra ID Named Location"
     $createBody = 
     '{
     "name": "'+ $location.displayName + '",
@@ -177,4 +193,3 @@ foreach ($location in $namedLocations.value) {
         }
     }
 }
-
